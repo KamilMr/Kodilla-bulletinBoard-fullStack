@@ -13,6 +13,7 @@ import { Post } from './components/views/Post/Post';
 import { PostEdit } from './components/views/PostEdit/PostEdit';
 import { PostAdd } from './components/views/PostAdd/PostAdd';
 import { NotFound } from './components/views/NotFound/NotFound';
+import PageNav from './components/layout/PageNav/PageNav';
 
 const theme = createMuiTheme({
   palette: {
@@ -26,6 +27,7 @@ const App = () => (
       <StylesProvider injectFirst>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <PageNav />
           <MainLayout>
             <Switch>
               <Route exact path='/' component={Homepage} />

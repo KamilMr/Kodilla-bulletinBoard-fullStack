@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+
 import clsx from 'clsx';
+
+import Container from '@material-ui/core/Container';
 
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
@@ -9,10 +12,9 @@ import clsx from 'clsx';
 import styles from './MainLayout.module.scss';
 
 const Component = ({className, children}) => (
-  <div className={clsx(className, styles.root)}>
-    <h2>MainLayout</h2>
+  <Container maxWidth="md" component="div" className={clsx(className, styles.root)}>
     {children}
-  </div>
+  </Container>
 );
 
 Component.propTypes = {
