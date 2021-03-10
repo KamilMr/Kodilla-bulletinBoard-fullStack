@@ -4,9 +4,9 @@ Do wykonania są następujące widoki:
 `MainLayout`: [DONE]
 główny układ strony,
 
-`Header`:
-dla niezalogowanych – link do logowania za pomocą Auth0,
-dla zalogowanych – link do listy własnych ogłoszeń oraz link do wylogowania,
+`Header`: [DONE]
+dla niezalogowanych – link do logowania za pomocą Auth0,[VIEW-DONE]
+dla zalogowanych – link do listy własnych ogłoszeń oraz link do wylogowania,[DONE]
 
 `Homepage`: [DONE]
     dla zalogowanych – link do dodawania nowego ogłoszenia,[DONE]
@@ -17,7 +17,7 @@ podstrona pojedynczego ogłoszenia, zawierająca wszystkie informacje,
 dla zalogowanego użytkownika, jeśli jest autorem tego ogłoszenia lub administratorem – link do edycji ogłoszenia,
 
 `PostEdit`:
-dla zalogowanego użytkownika, jeśli jest autorem tego ogłoszenia lub administratorem – widok umożliwiający edycję ogłoszenia,
+dla zalogowanego użytkownika, jeśli jest autorem tego ogłoszenia lub administratorem – widok umożliwiający edycję ogłoszenia, [DONE]
 
 `PostAdd`:
     [View-done]
