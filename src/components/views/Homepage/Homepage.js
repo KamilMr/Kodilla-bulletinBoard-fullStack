@@ -14,11 +14,6 @@ import IconButton from '@material-ui/core/IconButton';
 
 import styles from './Homepage.module.scss';
 
-// const deleteItem = (e) => {
-  
-  
-// };
-
 class Component extends React.Component {
   
   render() {
@@ -30,7 +25,7 @@ class Component extends React.Component {
         <Button href={'/post/add'} variant="contained">new announcment</Button>
         <Table className={styles.table} aria-label="simple table">
           <TableBody>
-            {posts.announcements.map((row) => (
+            {posts.map((row) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   {row.title}
@@ -39,7 +34,7 @@ class Component extends React.Component {
                   {row.description}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  <Button href={`/post/:${row.id}`}>Zobacz</Button>
+                  <Button href={`/post/${row.id}`}>Zobacz</Button>
                 </TableCell>
                 <TableCell component="th" scope="row">
                   <IconButton onClick={() => (deleteItem(row))} aria-label="delete">
@@ -58,7 +53,7 @@ class Component extends React.Component {
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  posts: PropTypes.object,
+  posts: PropTypes.array,
   getAll: PropTypes.func,
   updateStatus: PropTypes.func,
   deleteItem: PropTypes.func,
