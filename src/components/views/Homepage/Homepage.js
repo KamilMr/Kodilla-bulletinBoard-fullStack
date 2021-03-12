@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAll, updateStatus } from '../../../redux/postsRedux';
+import { getAll, deletePost } from '../../../redux/postsRedux';
 
 //Material-Ui
 import Table from '@material-ui/core/Table';
@@ -18,7 +18,6 @@ class Component extends React.Component {
   
   render() {
     const { posts, deleteItem } = this.props;
-    console.log(this.props);
     return (
       <div className={styles.root}>
         <h2>Homepage: Lista ogłoszeń</h2>
@@ -64,7 +63,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  deleteItem: arg => dispatch(updateStatus(arg)),
+  deleteItem: arg => dispatch(deletePost(arg)),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);

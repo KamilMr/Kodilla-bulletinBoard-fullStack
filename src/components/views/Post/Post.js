@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getAll } from '../../../redux/postsRedux';
-import { initialState } from '../../../redux/initialState.js';
 
 //Material-UI
 import Button from '@material-ui/core/Button';
@@ -12,45 +11,47 @@ import SaveIcon from '@material-ui/icons/Save';
 
 import styles from './Post.module.scss';
 
+const calculateId = (posts, id) => {
+  return posts.filter(item => item.id == id)[0];
+};
 
 class Component extends React.Component {
-
+  
   render() {
-    const { posts, match} = this.props;
-    console.log(this.props);
-    console.log(match.params.id);
+    const { posts } = this.props;
+    let id = this.props.match.params.id;
+
     return(
       <div className={styles.root}>
         <h2>Ogłoszenie</h2>
         <Grid container spacing={1}>
           <Grid item xs={7} >
             <Paper>
-              {posts[0].title}
-
+              {calculateId(posts, id).title}
             </Paper>
           </Grid>
           <Grid item xs={2}>
             <Paper >
-              {posts[0].price}
+              {calculateId(posts, id).price}
             </Paper>
           </Grid>
           <Grid item xs={3}>
-            {posts[0].status}
+            {calculateId(posts, id).status}
           </Grid>
           <Grid item xs={12} >
             <Paper>
-              {posts[0].description}
+              {calculateId(posts, id).description}
             </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Paper >{posts[0].email}</Paper>
+            <Paper >{calculateId(posts, id).email}</Paper>
           </Grid>
           <Grid item xs={6}>
             <Paper >
-              {posts[0].phone}</Paper>
+              {calculateId(posts, id).phone}</Paper>
           </Grid>
         </Grid>
-        <Button href={`/post/:${posts[0].id}/edit`} className={styles.margin_top} startIcon={<SaveIcon />}
+        <Button href={`/post/${calculateId(posts, id).id}/edit`} className={styles.margin_top} startIcon={<SaveIcon />}
           variant="contained">Edit</Button>
       </div>
     );
@@ -59,8 +60,11 @@ class Component extends React.Component {
 
 Component.propTypes = {
   children: PropTypes.node,
+  posts: PropTypes.array,
   className: PropTypes.string,
   row: PropTypes.object,
+  match: PropTypes.object,
+  
 };
 
 const mapStateToProps = state => ({
