@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAll } from '../../../redux/postsRedux';
+import { getAll, isLogIn } from '../../../redux/postsRedux';
 
 //Material-UI
 import Button from '@material-ui/core/Button';
@@ -12,16 +12,22 @@ import SaveIcon from '@material-ui/icons/Save';
 import styles from './Post.module.scss';
 
 const calculateId = (posts, id) => {
+  // eslint-disable-next-line eqeqeq
   return posts.filter(item => item.id == id)[0];
 };
 
 class Component extends React.Component {
-  
+
   render() {
-    const { posts } = this.props;
+    const { posts, isLogIn } = this.props;
     let id = this.props.match.params.id;
 
-    return(
+    let button;
+    if (isLogIn === 'true') {
+      button = <Button href={`/post/${calculateId(posts, id).id}/edit`} className={styles.margin_top} startIcon={<SaveIcon />}
+        variant="contained">Edit</Button>;
+    }
+    return (
       <div className={styles.root}>
         <h2>Ogłoszenie</h2>
         <Grid container spacing={1}>
@@ -51,8 +57,7 @@ class Component extends React.Component {
               {calculateId(posts, id).phone}</Paper>
           </Grid>
         </Grid>
-        <Button href={`/post/${calculateId(posts, id).id}/edit`} className={styles.margin_top} startIcon={<SaveIcon />}
-          variant="contained">Edit</Button>
+        {button}
       </div>
     );
   }
@@ -64,11 +69,14 @@ Component.propTypes = {
   className: PropTypes.string,
   row: PropTypes.object,
   match: PropTypes.object,
+  isLogIn: PropTypes.string,
   
+
 };
 
 const mapStateToProps = state => ({
   posts: getAll(state),
+  isLogIn: isLogIn(state,),
 });
 
 // const mapDispatchToProps = dispatch => ({

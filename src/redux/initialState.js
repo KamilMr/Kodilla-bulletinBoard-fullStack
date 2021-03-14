@@ -6,6 +6,9 @@ export const initialState = {
       { id: 3, title: 'Ogłoszenie trzecie', price: '120', status: 'closed', description: 'To jest ogłoszenie testowe.', email: '', phone: '666 333 666', photo: '', localization: '', publication: '', lastEdit: '' },
       { id: 4, title: 'Ogłoszenie takie se', price: '120', status: '', description: 'To jest ogłoszenie testowe.', email: '', phone: '666 444 666', photo: '', localization: '', publication: '', lastEdit: '' },
     ],
+    login: 'true',
+
+    userPosts:[],
 
     loading: {
       active: false,

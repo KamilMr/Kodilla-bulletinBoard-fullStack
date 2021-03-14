@@ -4,16 +4,21 @@ import PropTypes from 'prop-types';
 import Container from '@material-ui/core/Container';
 
 // import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+// import { addPost } from '../../../redux/postsRedux.js';
 
 import styles from './MainLayout.module.scss';
 
-const Component = (props) => (
-  <Container maxWidth="md" component="div" className={styles.root}>
-    {props.children}
-    {console.log(props)}
-  </Container>
-);
+class Component extends React.Component {
+  render() {
+    const { props } = this;
+    return (
+      <Container maxWidth="md" component="div" className={styles.root}>
+        {props.children} 
+      </Container>
+    );
+  }
+
+}
 
 Component.propTypes = {
   children: PropTypes.node,

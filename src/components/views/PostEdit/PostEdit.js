@@ -11,10 +11,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
-import { getAll, updateStatus } from '../../../redux/postsRedux';
+import { getAll, updateStatus, isLogIn } from '../../../redux/postsRedux';
 
 import styles from './PostEdit.module.scss';
-
+import { NotFound } from '../NotFound/NotFound';
 
 
 class Component extends React.Component {
@@ -40,7 +40,6 @@ class Component extends React.Component {
 
   async componentDidMount() {
     const { posts } = this.props;
-    const { post } = this.state;
     let id = this.props.match.params.id;
     let onePost = posts.filter(item => item.id == id)[0];
     this.setState({ post: { ...onePost } });
@@ -69,11 +68,13 @@ class Component extends React.Component {
 
   render() {
     const { updateTextField, submitForm, calculateId } = this;
-    const { posts } = this.props;
+    const { posts, isLogIn } = this.props;
     let id = this.props.match.params.id;
     console.log(this.props.match);
-    return (
-
+    
+    if (isLogIn === 'false') {
+      return <NotFound />;
+    }else return (
       <div className={styles.root}>
         <h2>Edytuj Ogłoszenie</h2>
         <form onSubmit={submitForm}>
@@ -127,10 +128,12 @@ Component.propTypes = {
   newPost: PropTypes.func,
   posts: PropTypes.array,
   match: PropTypes.object,
+  isLogIn: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   posts: getAll(state),
+  isLogIn: isLogIn(state),
 });
 
 const mapDispatchToProps = dispatch => ({

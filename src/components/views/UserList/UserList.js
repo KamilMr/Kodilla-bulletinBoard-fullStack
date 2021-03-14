@@ -12,21 +12,26 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 
-import styles from './Homepage.module.scss';
+import styles from './UserList.module.scss';
+import { NotFound } from '../NotFound/NotFound';
 
 class Component extends React.Component {
   render() {
     const { posts, deleteItem, isLogIn } = this.props;
     let button;
-    if (isLogIn === 'true') {
-      button = <Button href={'/post/add'} variant="contained">new announcment</Button>;
-    } else {
+    let deleteButton;
+    if(isLogIn === 'true'){
+      button =  <Button href={'/post/add'}  variant="contained">new announcment</Button>;
+      deleteButton = <DeleteIcon />;
+    }else {
       button = <div className={styles.containerAlert}>Musisz być zalogowany aby dodać/edytować lub usunąć ogłoszenie</div>;
     }
 
-    return (
+    if(isLogIn === 'false') {
+      return <NotFound />;
+    }else return (
       <div className={styles.root}>
-        <h2>Homepage: Lista ogłoszeń</h2>
+        <h2>UserList: Lista ogłoszeń</h2>
         {button}
         <Table className={styles.table} aria-label="simple table">
           <TableBody>
@@ -42,8 +47,8 @@ class Component extends React.Component {
                   <Button href={`/post/${row.id}`}>Zobacz</Button>
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  <IconButton onClick={() => (isLogIn === 'true' ? deleteItem(row) : '')} aria-label="delete">
-                    <DeleteIcon />
+                  <IconButton onClick={() => (deleteItem(row))} aria-label="delete">
+                    {deleteButton}
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -77,7 +82,7 @@ const mapDispatchToProps = dispatch => ({
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
-  // Component as Homepage,
-  Container as Homepage,
-  Component as HomepageComponent,
+  // Component as UserList,
+  Container as UserList,
+  Component as UserListComponent,
 };

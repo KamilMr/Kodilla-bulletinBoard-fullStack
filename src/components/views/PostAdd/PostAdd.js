@@ -11,16 +11,16 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
-import { addPost } from '../../../redux/postsRedux';
+import { addPost, isLogIn } from '../../../redux/postsRedux';
 
 import styles from './PostAdd.module.scss';
+import { NotFound } from '../NotFound/NotFound';
 
 
 class Component extends React.Component {
 
   state = {
     post: { 
-      id: '', 
       title: '',
       description:'',
       publication: '', 
@@ -44,6 +44,7 @@ class Component extends React.Component {
   }
   
   submitForm = (e) => {
+    e.preventDefault();
     const { post } = this.state;
     const { newPost } = this.props;
     newPost(post);
@@ -52,8 +53,11 @@ class Component extends React.Component {
   render() {
     const { updateTextField, submitForm } = this;
     const { post } = this.state;
-    console.log(this.props);
-    return (
+    const { isLogIn } = this.props;
+
+    if (isLogIn==='false') {
+      return <NotFound />;
+    }else return (
 
       <div className={styles.root}>
         <h2>Nowe ogłoszenie</h2>
@@ -106,17 +110,18 @@ Component.propTypes = {
   className: PropTypes.string,
   addPost: PropTypes.func,
   newPost: PropTypes.func,
+  isLogIn: PropTypes.string,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = state => ({
+  isLogIn: isLogIn(state),
+});
 
 const mapDispatchToProps = dispatch => ({
   newPost: arg => dispatch(addPost(arg)),
 });
 
-const Container = connect(null, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
   // Component as PostAdd,
