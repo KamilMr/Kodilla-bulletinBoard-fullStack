@@ -11,7 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
-import { getAll, updateStatus, isLogIn } from '../../../redux/postsRedux';
+import { getAll, updatePostRequest, isLogIn, fetchPost } from '../../../redux/postsRedux';
 
 import styles from './PostEdit.module.scss';
 import { NotFound } from '../NotFound/NotFound';
@@ -21,31 +21,39 @@ class Component extends React.Component {
 
   state = {
     post: {
-      id: '',
+      _id: '',
       title: '',
-      description: '',
-      publication: '',
-      lastEdit: '',
-      email: '',
+      text: '',
+      created: '',
+      updated: '',
+      author: '',
       status: 'draft',
       price: '',
       phone: '',
       photo: '',
-      localization: '',
+      location: '',
     },
     isError: false,
   }
 
 
 
-  async componentDidMount() {
-    const { posts } = this.props;
+  componentDidMount() {
+    const { posts, getOnePost } = this.props;
     let id = this.props.match.params.id;
-    let onePost = posts.filter(item => item.id == id)[0];
-    this.setState({ post: { ...onePost } });
-
+    getOnePost(id);
+    // console.log('didmount', posts);
+    // let onePost = posts.filter(item => item.id == id)[0];
   }
-
+  
+  componentDidUpdate(prevProps, prevState) {
+    const { posts } = this.props;
+    if(prevProps.posts !== this.props.posts){
+      this.setState({ post: { ...posts[0] } });
+      
+    }
+    // console.log(this.state);
+  }
 
   updateTextField = ({ target }) => {
     const { post } = this.state;
@@ -54,68 +62,62 @@ class Component extends React.Component {
     this.setState({ post: { ...post, [name]: value } });
   };
 
-  calculateId = (posts, id) => {
-    let onePost = posts.filter(item => item.id == id)[0];
-    return onePost;
-  };
-
   submitForm = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const { post } = this.state;
     const { newPost } = this.props;
     newPost(post);
   };
 
   render() {
-    const { updateTextField, submitForm, calculateId } = this;
+    const { updateTextField, submitForm } = this;
     const { posts, isLogIn } = this.props;
     let id = this.props.match.params.id;
-    console.log(this.props.match);
-    
     if (isLogIn === 'false') {
       return <NotFound />;
-    }else return (
+    } else return (
       <div className={styles.root}>
-        <h2>Edytuj Ogłoszenie</h2>
-        <form onSubmit={submitForm}>
-          <Grid container spacing={1}>
-            <Grid item xs={7}>
-              <Paper >
-                <TextField required fullWidth id="title" defaultValue={calculateId(posts, id).title} label="Tytuł" InputProps={{ disableUnderline: true }} name="title" onChange={updateTextField} />
-              </Paper>
+        <h2>Edytuj ogłoszenie</h2>
+        {posts[0] != undefined ?
+          <form onSubmit={submitForm}>
+            <Grid container spacing={1}>
+              <Grid item xs={7}>
+                <Paper >
+                  <TextField required fullWidth id="title" defaultValue={posts[0].title} label="Tytuł" InputProps={{ disableUnderline: true }} name="title" onChange={updateTextField} />
+                </Paper>
+              </Grid>
+              <Grid item xs={2}>
+                <Paper >
+                  <TextField id="price" label="Cena" name="price" defaultValue={posts[0].price} onChange={updateTextField} />
+                </Paper>
+              </Grid>
+              <Grid item xs={3}>
+                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" name="status" defaultValue={posts[0].status} onChange={updateTextField}>
+                  <MenuItem value={'draft'}>Szkic</MenuItem>
+                  <MenuItem value={'published'}>Opublikuj</MenuItem>
+                  <MenuItem value={'end'}>Zakończ</MenuItem>
+                </Select>
+              </Grid>
+              <Grid item xs={12} >
+                <Paper>
+                  <TextField required fullWidth multiline rows="5" id="content" label="Opis" name="text" defaultValue={posts[0].text} onChange={updateTextField} />
+                </Paper>
+              </Grid>
+              <Grid item xs={6}>
+                <Paper >
+                  <TextField required id="author-email" label="Email" name="email" defaultValue={posts[0].author} onChange={updateTextField} InputProps={{ disableUnderline: true }} />
+                </Paper>
+              </Grid>
+              <Grid item xs={6}>
+                <Paper >
+                  <TextField id="author-phone" label="Telefon" name="phone" defaultValue={posts[0].phone} onChange={updateTextField} InputProps={{ disableUnderline: true }} />
+                </Paper>
+              </Grid>
             </Grid>
-            <Grid item xs={2}>
-              <Paper >
-                <TextField id="price" label="Cena" name="price" defaultValue={calculateId(posts, id).price} onChange={updateTextField} />
-              </Paper>
-            </Grid>
-            <Grid item xs={3}>
-              <InputLabel id="demo-simple-select-label">Status</InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" name="status" defaultValue={calculateId(posts, id).status} onChange={updateTextField}>
-                <MenuItem value={'draft'}>Szkic</MenuItem>
-                <MenuItem value={'public'}>Opublikuj</MenuItem>
-                <MenuItem value={'end'}>Zakończ</MenuItem>
-              </Select>
-            </Grid>
-            <Grid item xs={12} >
-              <Paper>
-                <TextField required fullWidth multiline rows="5" id="content" label="Opis" name="description" defaultValue={calculateId(posts, id).description} onChange={updateTextField} />
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper >
-                <TextField required id="author-email" label="Email" name="email" defaultValue={calculateId(posts, id).email} onChange={updateTextField} InputProps={{ disableUnderline: true }} />
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper >
-                <TextField id="author-phone" label="Telefon" name="phone" defaultValue={calculateId(posts, id).phone} onChange={updateTextField} InputProps={{ disableUnderline: true }} />
-              </Paper>
-            </Grid>
-          </Grid>
-          <Button className={styles.margin_top} startIcon={<SaveIcon />}
-            variant="contained" type="submit">Save</Button>
-        </form>
+            <Button className={styles.margin_top} startIcon={<SaveIcon />}
+              variant="contained" type="submit">Save</Button>
+          </form> : ''}
       </div>
     );
   }
@@ -124,7 +126,7 @@ class Component extends React.Component {
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  addPost: PropTypes.func,
+  getOnePost: PropTypes.func,
   newPost: PropTypes.func,
   posts: PropTypes.array,
   match: PropTypes.object,
@@ -137,7 +139,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  newPost: arg => dispatch(updateStatus(arg)),
+  getOnePost: (id) => dispatch(fetchPost(id)),
+  newPost: arg => dispatch(updatePostRequest(arg)),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);

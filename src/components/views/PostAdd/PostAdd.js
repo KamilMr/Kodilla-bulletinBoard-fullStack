@@ -11,7 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
-import { addPost, isLogIn } from '../../../redux/postsRedux';
+import {addPostRequest, isLogIn } from '../../../redux/postsRedux';
 
 import styles from './PostAdd.module.scss';
 import { NotFound } from '../NotFound/NotFound';
@@ -44,7 +44,7 @@ class Component extends React.Component {
   }
   
   submitForm = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const { post } = this.state;
     const { newPost } = this.props;
     newPost(post);
@@ -77,7 +77,7 @@ class Component extends React.Component {
               <InputLabel id="demo-simple-select-label">Status</InputLabel>
               <Select labelId="demo-simple-select-label" id="demo-simple-select" name="status" onChange={updateTextField} defaultValue="draft" >
                 <MenuItem value={'draft'}>Szkic</MenuItem>
-                <MenuItem value={'public'}>Opublikuj</MenuItem>
+                <MenuItem value={'published'}>Opublikuj</MenuItem>
                 <MenuItem value={'end'}>Zakończ</MenuItem>
               </Select>
             </Grid>
@@ -118,7 +118,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  newPost: arg => dispatch(addPost(arg)),
+  newPost: post => dispatch(addPostRequest(post)),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);

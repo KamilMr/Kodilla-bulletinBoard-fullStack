@@ -34,7 +34,7 @@ const Component = () => {
   let btnUserList;
 
   if (logIn === 'false'){
-    btnLog = <Button href={'https://google.com'} color="inherit">Login</Button>;
+    btnLog = <Button href={'https://google.com'} variant="outlined" color="inherit">Login</Button>;
   }else{
     btnLog = <Button href={'/'} color="inherit">Logout</Button>;
     btnUserList = <Button href={'/user'} className={styles.color_menu} >Lista użytkownika</Button>;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAll, deletePost, isLogIn } from '../../../redux/postsRedux';
+import { getAll, deletePostRequest, fetchDrafts, isLogIn } from '../../../redux/postsRedux';
 
 //Material-Ui
 import Table from '@material-ui/core/Table';
@@ -16,12 +16,19 @@ import styles from './UserList.module.scss';
 import { NotFound } from '../NotFound/NotFound';
 
 class Component extends React.Component {
+
+  componentDidMount() {
+    const { fetchDraftsPosts } = this.props;
+    fetchDraftsPosts();
+  }
+
   render() {
     const { posts, deleteItem, isLogIn } = this.props;
+
     let button;
     let deleteButton;
     if(isLogIn === 'true'){
-      button =  <Button href={'/post/add'}  variant="contained">new announcment</Button>;
+      button =  <Button href={'/posts/add'} color="primary" variant="contained">new announcment</Button>;
       deleteButton = <DeleteIcon />;
     }else {
       button = <div className={styles.containerAlert}>Musisz być zalogowany aby dodać/edytować lub usunąć ogłoszenie</div>;
@@ -30,13 +37,13 @@ class Component extends React.Component {
     if(isLogIn === 'false') {
       return <NotFound />;
     }else return (
-      <div className={styles.root}>
-        <h2>UserList: Lista ogłoszeń</h2>
+      <div className={styles.root} style={{ width: '100%' }}>
+        <h1 style={{textAlign: 'center '}}>UserList: Lista ogłoszeń</h1>
         {button}
         <Table className={styles.table} aria-label="simple table">
           <TableBody>
             {posts.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow key={row._id}>
                 <TableCell component="th" scope="row">
                   {row.title}
                 </TableCell>
@@ -44,7 +51,7 @@ class Component extends React.Component {
                   {row.description}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  <Button href={`/post/${row.id}`}>Zobacz</Button>
+                  <Button href={`/posts/${row._id}`}>Zobacz</Button>
                 </TableCell>
                 <TableCell component="th" scope="row">
                   <IconButton onClick={() => (deleteItem(row))} aria-label="delete">
@@ -65,6 +72,7 @@ Component.propTypes = {
   className: PropTypes.string,
   posts: PropTypes.array,
   getAll: PropTypes.func,
+  fetchDraftsPosts: PropTypes.func,
   updateStatus: PropTypes.func,
   deleteItem: PropTypes.func,
   isLogIn: PropTypes.string,
@@ -76,7 +84,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  deleteItem: arg => dispatch(deletePost(arg)),
+  fetchDraftsPosts: () => dispatch(fetchDrafts()),
+  deleteItem: arg => dispatch(deletePostRequest(arg)),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
