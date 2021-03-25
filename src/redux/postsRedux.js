@@ -81,6 +81,7 @@ export const fetchDrafts = () => {
   };
 };
 export const addPostRequest = (post) => {
+  console.log(post);
   return (dispatch, getState) => {
     dispatch(fetchStarted());
     Axios
@@ -163,7 +164,6 @@ export const reducer = (statePart = [], action = {}) => {
       };
     }
     case DELETE_POST: {
-
       return {
         ...statePart,
         data: statePart.data.filter(post => post !== action.payload),

@@ -1,7 +1,18 @@
 @import '../../../styles/settings.scss';
 
-// .root {
-// }
+.root {
+    margin-top: 50px;
+}
+
+.title {
+    font-size: large;
+    margin-left: 13px;
+}
+
+.media {
+    height: 300px;
+    width: 100%;
+}
 
 .height {
     height: 200px;
@@ -9,4 +20,8 @@
 
 .margin_top {
     margin-top: 10px;
+}
+
+.text_box {
+    min-height: 100px;
 }

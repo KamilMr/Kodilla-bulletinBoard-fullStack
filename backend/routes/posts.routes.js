@@ -7,7 +7,7 @@ router.get('/posts', async (req, res) => {
   try {
     const result = await Post
       .find({ status: 'published' })
-      .select('author created title photo')
+      .select('author created title photo text')
       .sort({ created: -1 });
     if (!result) res.status(404).json({ post: 'Not found' });
     else res.json(result);
@@ -67,6 +67,7 @@ router.put('/posts/:id', async (req, res) => {
 });
 
 router.post('/posts/add', async (req, res) => {
+  console.log(req.body);
   try {
     const { title, description, publication, lastEdit, email, status, price, phone, photo, localization } = req.body;
     const newPost = new Post({ title: title, author: email, created: publication, updated: lastEdit, status: status, text: description, photo: photo, price: price, phone: phone, localization: localization });

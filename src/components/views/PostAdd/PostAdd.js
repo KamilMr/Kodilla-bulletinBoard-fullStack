@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import TextField from '@material-ui/core/TextField';
+import { TextField, CardMedia } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -11,40 +11,46 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
-import {addPostRequest, isLogIn } from '../../../redux/postsRedux';
+import { addPostRequest, isLogIn } from '../../../redux/postsRedux';
 
 import styles from './PostAdd.module.scss';
 import { NotFound } from '../NotFound/NotFound';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 
 class Component extends React.Component {
 
   state = {
-    post: { 
+    post: {
       title: '',
-      description:'',
-      publication: '', 
+      description: '',
+      publication: '',
       lastEdit: '',
-      email: '', 
-      status:'draft',
-      price:'', 
-      phone: '', 
-      photo: '', 
-      localization: '', 
+      email: '',
+      status: 'draft',
+      price: '',
+      phone: '',
+      photo: '',
+      localization: '',
     },
     isError: false,
   }
 
-  
-  updateTextField = ({target}) => {
+  handleChange(files) {
+    console.log(files);
+    this.setState({
+      post: {photo: files},
+    });
+  }
+  updateTextField = ({ target }) => {
     const { post } = this.state;
     const { name, value } = target;
-    
-    this.setState({post:{...post, [name]: value }});
+
+    this.setState({ post: { ...post, [name]: value } });
   }
-  
+
   submitForm = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     const { post } = this.state;
     const { newPost } = this.props;
     newPost(post);
@@ -55,9 +61,9 @@ class Component extends React.Component {
     const { post } = this.state;
     const { isLogIn } = this.props;
 
-    if (isLogIn==='false') {
+    if (isLogIn === 'false') {
       return <NotFound />;
-    }else return (
+    } else return (
 
       <div className={styles.root}>
         <h2>Nowe ogłoszenie</h2>
@@ -65,7 +71,7 @@ class Component extends React.Component {
           <Grid container spacing={1}>
             <Grid item xs={7}>
               <Paper >
-                <TextField required fullWidth id="title"  label="Tytuł" InputProps={{ disableUnderline: true }} name="title" onChange={updateTextField} />
+                <TextField required fullWidth id="title" label="Tytuł" InputProps={{ disableUnderline: true }} name="title" onChange={updateTextField} />
               </Paper>
             </Grid>
             <Grid item xs={2}>
@@ -80,6 +86,12 @@ class Component extends React.Component {
                 <MenuItem value={'published'}>Opublikuj</MenuItem>
                 <MenuItem value={'end'}>Zakończ</MenuItem>
               </Select>
+            </Grid>
+            <Grid item xs={12} >
+              <DropzoneArea
+                filesLimit={1}
+                onChange={this.handleChange.bind(this)}
+              />
             </Grid>
             <Grid item xs={12} >
               <Paper>

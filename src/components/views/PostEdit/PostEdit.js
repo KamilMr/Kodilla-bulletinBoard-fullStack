@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import TextField from '@material-ui/core/TextField';
+import {TextField, CardMedia} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -39,20 +39,17 @@ class Component extends React.Component {
 
 
   componentDidMount() {
-    const { posts, getOnePost } = this.props;
+    const { getOnePost } = this.props;
     let id = this.props.match.params.id;
     getOnePost(id);
-    // console.log('didmount', posts);
-    // let onePost = posts.filter(item => item.id == id)[0];
   }
-  
+
   componentDidUpdate(prevProps, prevState) {
     const { posts } = this.props;
-    if(prevProps.posts !== this.props.posts){
+    if (prevProps.posts !== this.props.posts) {
       this.setState({ post: { ...posts[0] } });
-      
+
     }
-    // console.log(this.state);
   }
 
   updateTextField = ({ target }) => {
@@ -98,6 +95,9 @@ class Component extends React.Component {
                   <MenuItem value={'published'}>Opublikuj</MenuItem>
                   <MenuItem value={'end'}>Zakończ</MenuItem>
                 </Select>
+              </Grid>
+              <Grid item xs={12} >
+                <CardMedia className={styles.media} image={posts[0].photo} />
               </Grid>
               <Grid item xs={12} >
                 <Paper>

@@ -3,17 +3,19 @@ import PropTypes from 'prop-types';
 
 import Container from '@material-ui/core/Container';
 
+import styles from './MainLayout.module.scss';
+
+
 // import { connect } from 'react-redux';
 // import { addPost } from '../../../redux/postsRedux.js';
 
-import styles from './MainLayout.module.scss';
 
 class Component extends React.Component {
   render() {
     const { props } = this;
     return (
       <Container maxWidth="md" component="div" className={styles.root}>
-        {props.children} 
+        {props.children}
       </Container>
     );
   }

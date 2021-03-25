@@ -6,16 +6,12 @@ import ClipLoader from 'react-spinners/ClipLoader';
 
 
 //Material-UI
-import Button from '@material-ui/core/Button';
+import { Button, CardMedia } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import SaveIcon from '@material-ui/icons/Save';
+import EditIcon from '@material-ui/icons/Edit';
 
 import styles from './Post.module.scss';
-
-const calculateId = (posts, id) => {
-  return posts.filter(item => item._id == id)[0];
-};
 
 class Component extends React.Component {
 
@@ -38,38 +34,34 @@ class Component extends React.Component {
       );
     } else {
       if (isLogIn === 'true') {
-        button = <Button href={`/posts/${id}/edit`} className={styles.margin_top} startIcon={<SaveIcon />}
+        button = <Button href={`/posts/${id}/edit`} className={styles.margin_top} startIcon={<EditIcon />}
           variant="contained">Edit</Button>;
       }
-
       return (
         <div className={styles.root}>
-          <h2>Ogłoszenie</h2>
-          <Grid container spacing={1}>
-            <Grid item xs={7} >
-              <Paper>
-                {calculateId(posts, id).title}
-              </Paper>
-            </Grid>
-            <Grid item xs={2}>
-              <Paper >
-                {calculateId(posts, id).price}
-              </Paper>
-            </Grid>
-            <Grid item xs={3}>
-              {calculateId(posts, id).status}
+          <Grid container spacing={3}>
+            <Grid container>
+              <Grid item xs={8}>
+                <Paper className={styles.title} elevation={0} >{posts[0].title}</Paper>
+              </Grid>
+              <Grid item xs={4}>
+                <Paper elevation={0}>{posts[0].price + '  zł'}</Paper>
+              </Grid>
             </Grid>
             <Grid item xs={12} >
-              <Paper>
-                {calculateId(posts, id).description}
+              <CardMedia className={styles.media} image={posts[0].photo} />
+            </Grid>
+            <Grid item xs={12} >
+              <Paper className={styles.text_box} >
+                {posts[0].text}
               </Paper>
             </Grid>
             <Grid item xs={6}>
-              <Paper >{calculateId(posts, id).author}</Paper>
+              <Paper >{'Autor: ' + posts[0].author}</Paper>
             </Grid>
             <Grid item xs={6}>
               <Paper >
-                {calculateId(posts, id).phone}</Paper>
+                {'Numer telefonu: ' + posts[0].phone}</Paper>
             </Grid>
           </Grid>
           {button}

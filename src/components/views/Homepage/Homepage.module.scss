@@ -1,7 +1,18 @@
 @import '../../../styles/settings.scss';
 
-// .root {
-// }
+.root {
+    max-width: 445px;
+    // height: 300px;
+}
+
+.media {
+    height: 140px;
+}
+
+.marginTop {
+    margin-top: 20px;
+    margin-left: 13px;
+}
 
 .containerAlert {
     width: 100%;
@@ -10,3 +21,4 @@
     font-size: 24px;
     text-align: center;
 }
+
