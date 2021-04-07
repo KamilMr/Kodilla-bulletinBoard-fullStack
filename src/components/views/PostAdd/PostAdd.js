@@ -113,12 +113,12 @@ class Component extends React.Component {
             </Grid>
             <Grid item xs={6}>
               <Paper >
-                <TextField required id="author-email" label="Email" name="email" onChange={updateTextField} InputProps={{ disableUnderline: true }} />
+                <TextField required fullWidth id="author-email" label="Email" name="email" onChange={updateTextField} InputProps={{ disableUnderline: true }} />
               </Paper>
             </Grid>
             <Grid item xs={6}>
               <Paper >
-                <TextField id="author-phone" label="Telefon" name="phone" onChange={updateTextField} InputProps={{ disableUnderline: true }} />
+                <TextField fullWidth id="author-phone" label="Telefon" name="phone" onChange={updateTextField} InputProps={{ disableUnderline: true }} />
               </Paper>
             </Grid>
           </Grid>
