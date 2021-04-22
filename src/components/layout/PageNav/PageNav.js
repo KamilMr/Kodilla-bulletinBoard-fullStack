@@ -32,9 +32,8 @@ const Component = () => {
   const logIn = useSelector(state => state.posts.login);
   let btnLog;
   let btnUserList;
-
   if (logIn === 'false'){
-    btnLog = <Button href={'https://google.com'} variant="outlined" color="inherit">Login</Button>;
+    btnLog = <Button href={'/auth/google'} variant="outlined" color="inherit">Login</Button>;
   }else{
     btnLog = <Button href={'/'} color="inherit">Logout</Button>;
     btnUserList = <Button href={'/user'} className={styles.color_menu} >Lista użytkownika</Button>;

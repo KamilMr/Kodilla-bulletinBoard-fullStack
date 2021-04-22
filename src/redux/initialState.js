@@ -2,7 +2,7 @@ export const initialState = {
   posts: {
     data: [],
 
-    login: 'true',
+    login: 'false',
 
     loading: {
       active: false,

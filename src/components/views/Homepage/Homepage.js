@@ -21,7 +21,6 @@ class Component extends React.Component {
 
   render() {
     const { posts, deleteItem, isLogIn } = this.props;
-    console.log(posts);
     let button;
     if (isLogIn === 'true') {
       button = <Button href={'/posts/add'} color="secondary" variant="contained" className={styles.marginTop}>new announcment</Button>;

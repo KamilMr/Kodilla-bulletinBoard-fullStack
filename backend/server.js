@@ -1,11 +1,24 @@
 const express = require('express');
+const passport = require('passport');
+const session = require('express-session');
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
+const passportSetup = require('./config/passport');
 
 const postsRoutes = require('./routes/posts.routes');
 
+
 const app = express();
+
+
+
+// init session mechanism
+app.use(session({ secret: 'anything' }));
+
+// init passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 /* MIDDLEWARE */
 app.use(cors());
@@ -14,6 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 
 /* API ENDPOINTS */
 app.use('/api', postsRoutes);
+app.use('/auth', require('./routes/auth.routes'));
 
 /* API ERROR PAGES */
 app.use('/api', (req, res) => {
@@ -37,5 +51,5 @@ db.on('error', err => console.log('Error: ' + err));
 /* START SERVER */
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
-  console.log('Server is running on port: '+port);
+  console.log('Server is running on port: ' + port);
 });

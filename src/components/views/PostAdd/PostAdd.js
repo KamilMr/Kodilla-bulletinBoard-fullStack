@@ -30,17 +30,19 @@ class Component extends React.Component {
       status: 'draft',
       price: '',
       phone: '',
-      photo: '',
       localization: '',
+      photo: '',
     },
     isError: false,
   }
 
   handleChange(files) {
-    console.log(files);
-    this.setState({
-      post: {photo: files},
-    });
+    if(files[0] != undefined){
+      this.setState({
+        post: {photo: files[0].path},
+      });
+
+    }
   }
   updateTextField = ({ target }) => {
     const { post } = this.state;
@@ -67,7 +69,7 @@ class Component extends React.Component {
 
       <div className={styles.root}>
         <h2>Nowe ogłoszenie</h2>
-        <form onSubmit={submitForm}>
+        <form onSubmit={submitForm} method="post" action="/upload">
           <Grid container spacing={1}>
             <Grid item xs={7}>
               <Paper >
@@ -88,10 +90,7 @@ class Component extends React.Component {
               </Select>
             </Grid>
             <Grid item xs={12} >
-              <DropzoneArea
-                filesLimit={1}
-                onChange={this.handleChange.bind(this)}
-              />
+              <input type="file" name="file" id="file" className="dropzone"></input>
             </Grid>
             <Grid item xs={12} >
               <Paper>

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
 const Post = require('../models/post.model');
+
 
 router.get('/posts', async (req, res) => {
   try {
@@ -67,18 +67,17 @@ router.put('/posts/:id', async (req, res) => {
 });
 
 router.post('/posts/add', async (req, res) => {
-  console.log(req.body);
   try {
     const { title, description, publication, lastEdit, email, status, price, phone, photo, localization } = req.body;
     const newPost = new Post({ title: title, author: email, created: publication, updated: lastEdit, status: status, text: description, photo: photo, price: price, phone: phone, localization: localization });
-    console.log(req);
-    await newPost.save();
+    console.log(photo);
 
+    await newPost.save();
     if (!newPost) res.status(404).json({ post: 'Not found' });
     else res.json(newPost);
   }
   catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(`This error ${err}`);
   }
 });
 
