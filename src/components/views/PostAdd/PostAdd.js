@@ -51,13 +51,26 @@ class Component extends React.Component {
     this.setState({ post: { ...post, [name]: value } });
   }
 
+  newDate = () => {
+    const dateObj = new Date();
+    const month = dateObj.getUTCMonth() + 1; //months from 1-12
+    const day = dateObj.getUTCDate();
+    const year = dateObj.getUTCFullYear();
+
+    let newdate = day + "/" + month + "/" + year;
+    return newdate
+  }
+
+
   submitForm = (e) => {
     e.preventDefault();
     const { post } = this.state;
     const { newPost } = this.props;
-    newPost(post);
-  };
-
+    this.setState({post: {...post, publication: this.newDate()}});
+    setTimeout(() => {
+      newPost(this.state.post);
+    }, 1000);
+  }
   render() {
     const { updateTextField, submitForm } = this;
     const { post } = this.state;
@@ -99,17 +112,17 @@ class Component extends React.Component {
             </Grid>
             <Grid item xs={6}>
               <Paper >
-                <TextField required id="author-email" label="Email" name="email" onChange={updateTextField} InputProps={{ disableUnderline: true }} />
+                <TextField required fullWidth id="author-email" label="Email" name="email" onChange={updateTextField} InputProps={{ disableUnderline: true }} />
               </Paper>
             </Grid>
             <Grid item xs={6}>
               <Paper >
-                <TextField id="author-phone" label="Telefon" name="phone" onChange={updateTextField} InputProps={{ disableUnderline: true }} />
+                <TextField fullWidth id="author-phone" label="Telefon" name="phone" onChange={updateTextField} InputProps={{ disableUnderline: true }} />
               </Paper>
             </Grid>
           </Grid>
           <Button className={styles.margin_top} startIcon={<SaveIcon />}
-            variant="contained" type="submit">Save</Button>
+            constiant="contained" type="submit">Save</Button>
         </form>
       </div>
     );
